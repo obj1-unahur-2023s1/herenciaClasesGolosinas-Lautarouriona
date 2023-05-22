@@ -11,16 +11,29 @@ object limon { }
 /*
  * Golosinas
  */
+ class Golosina{
+ 	
+ }
 class Bombon {
-	var peso = 15
+	var property peso = 15
 	
 	method precio() { return 5 }
 	method peso() { return peso }
 	method mordisco() { peso = peso * 0.8 - 1 }
 	method sabor() { return frutilla }
 	method libreGluten() { return true }
+	
 }
-
+class BombonDuro inherits Bombon{
+		var property durezaa
+	
+	override method  mordisco(){ peso = peso - 1 }
+	 method dureza(){
+		if(peso>12){durezaa=3}
+		else if(peso<12 && peso>8){durezaa=2}
+		else if(peso<8){durezaa=1}
+	}
+}
 
 class Alfajor {
 	var peso = 15
@@ -34,12 +47,21 @@ class Alfajor {
 
 class Caramelo {
 	var peso = 5
+    var property sabor  
 
 	method precio() { return 12 }
 	method peso() { return peso }
 	method mordisco() { peso = peso - 1 }
-	method sabor() { return frutilla }
+	method sabor(lol) { sabor = lol}
 	method libreGluten() { return true }
+}
+class CarameloCorazon inherits Caramelo{
+	
+	override method mordisco(){
+		peso = peso - 1
+		sabor = chocolate
+	}
+	override method precio() { return 13 }
 }
 
 
@@ -59,6 +81,7 @@ class Chupetin {
 
 class Oblea {
 	var peso = 250
+	var property cantMordiscos
 	
 	method precio() { return 5 }
 	method peso() { return peso }
@@ -70,9 +93,19 @@ class Oblea {
 			// pierde el 25% del peso
 			peso = peso - (peso * 0.25)
 		}
+		cantMordiscos =cantMordiscos +1
 	}	
 	method sabor() { return vainilla }
 	method libreGluten() { return false }
+}
+
+class ObleasCrujientes inherits Oblea{
+	 method  llega3Mordiscos() {
+	if(cantMordiscos==3){peso= peso -3}	
+	}
+	method estaDebil(){return cantMordiscos >=3}
+	
+	
 }
 
 class Chocolatin {
@@ -90,7 +123,13 @@ class Chocolatin {
 	method libreGluten() { return false }
 
 }
-
+class ChocolatinPremium inherits Chocolatin{
+	var property humedad 
+	override method peso(){ return ((pesoInicial - comido).max(0))*(1 + humedad) }
+}
+class ChocolatinVip inherits ChocolatinPremium{
+	override method peso(){ return ((pesoInicial - comido).max(0))*(1 + humedad/2) }
+}
 class GolosinaBaniada {
 	var golosinaInterior
 	var pesoBanio = 4
@@ -109,7 +148,7 @@ class GolosinaBaniada {
 
 class Tuttifrutti {
 	var libreDeGluten
-	var sabores = [frutilla, chocolate, naranja]
+	const sabores = [frutilla, chocolate, naranja]
 	var saborActual = 0
 	
 	method mordisco() { saborActual += 1 }	
